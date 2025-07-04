@@ -1,40 +1,40 @@
 import { MdDelete, MdEdit, MdLibraryBooks } from "react-icons/md";
+import type { IBook } from "../../types";
+import EditBookModal from "../../components/EditBookModal";
+import { BorrowBookModal } from "../../components/BorrowBookModal";
+import { Pagination } from "../../components/Pagination";
 import {
   useGetBooksQuery,
   useDeleteBookMutation,
 } from "../../redux/api/baseApi";
-import type { IBook } from "../../types";
-import { useState } from "react";
-import EditBookModal from "../../components/EditBookModal";
-import { BorrowBookModal } from "../../components/BorrowBookModal";
+import {
+  openEditModal,
+  closeEditModal,
+  openBorrowModal,
+  closeBorrowModal,
+} from "../../redux/features/uiSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 
 export const Book = () => {
-  const { data: books, isLoading, isError } = useGetBooksQuery(undefined);
-  const [selectedBook, setSelectedBook] = useState<IBook | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isBorrowOpen, setIsBorrowOpen] = useState(false);
-  const [borrowTarget, setBorrowTarget] = useState<IBook | null>(null);
+  const dispatch = useAppDispatch();
+  const {
+    isEditModalOpen,
+    selectedBook,
+    isBorrowModalOpen,
+    borrowTarget,
+    currentPage,
+    limit,
+  } = useAppSelector((state) => state.ui);
+
   const [deleteBook] = useDeleteBookMutation();
-
-  const openModal = (book: IBook) => {
-    setSelectedBook(book);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedBook(null);
-  };
-
-  const openBorrowModal = (book: IBook) => {
-    setBorrowTarget(book);
-    setIsBorrowOpen(true);
-  };
-
-  const closeBorrowModal = () => {
-    setBorrowTarget(null);
-    setIsBorrowOpen(false);
-  };
+  const {
+    data: books,
+    isLoading,
+    isError,
+  } = useGetBooksQuery({
+    page: currentPage,
+    limit,
+  });
 
   const handleDelete = async (book: IBook) => {
     const confirmDelete = window.confirm(
@@ -52,8 +52,12 @@ export const Book = () => {
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Something went wrong!</p>;
 
+  const selected = books?.data?.find((b: IBook) => b._id === selectedBook);
+  const borrow = books?.data?.find((b: IBook) => b._id === borrowTarget);
+
   return (
     <div className="overflow-x-auto">
+      <h1 className="text-2xl font-medium text-center mb-5">All Book</h1>
       <table className="min-w-full border border-gray-200 divide-y divide-gray-200 text-sm">
         <thead className="bg-gray-100">
           <tr>
@@ -97,33 +101,27 @@ export const Book = () => {
               </td>
               <td className="px-4 py-2">
                 <div className="flex gap-4">
-                  <div>
-                    <button
-                      onClick={() => openModal(book)}
-                      title="Edit"
-                      className="cursor-pointer"
-                    >
-                      <MdEdit className="text-xl" />
-                    </button>
-                  </div>
-                  <div>
-                    <button
-                      onClick={() => handleDelete(book)}
-                      title="Delete"
-                      className="cursor-pointer"
-                    >
-                      <MdDelete className="text-red-600 text-xl" />
-                    </button>
-                  </div>
-                  <div>
-                    <button
-                      onClick={() => openBorrowModal(book)}
-                      title="Borrow"
-                      className="cursor-pointer"
-                    >
-                      <MdLibraryBooks className="text-green-600 text-xl" />
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => dispatch(openEditModal(book._id))}
+                    title="Edit"
+                    className="cursor-pointer"
+                  >
+                    <MdEdit className="text-xl" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(book)}
+                    title="Delete"
+                    className="cursor-pointer"
+                  >
+                    <MdDelete className="text-red-600 text-xl" />
+                  </button>
+                  <button
+                    onClick={() => dispatch(openBorrowModal(book._id))}
+                    title="Borrow"
+                    className="cursor-pointer"
+                  >
+                    <MdLibraryBooks className="text-green-600 text-xl" />
+                  </button>
                 </div>
               </td>
             </tr>
@@ -131,19 +129,21 @@ export const Book = () => {
         </tbody>
       </table>
 
-      {selectedBook && (
+      <Pagination />
+
+      {selected && (
         <EditBookModal
-          isOpen={isModalOpen}
-          closeModal={closeModal}
-          book={selectedBook}
+          isOpen={isEditModalOpen}
+          closeModal={() => dispatch(closeEditModal())}
+          book={selected}
         />
       )}
 
-      {borrowTarget && (
+      {borrow && (
         <BorrowBookModal
-          isOpen={isBorrowOpen}
-          closeModal={closeBorrowModal}
-          book={borrowTarget}
+          isOpen={isBorrowModalOpen}
+          closeModal={() => dispatch(closeBorrowModal())}
+          book={borrow}
         />
       )}
     </div>

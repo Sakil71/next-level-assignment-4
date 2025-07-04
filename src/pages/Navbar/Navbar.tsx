@@ -9,7 +9,7 @@ export const Navbar = () => {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <nav className="bg-green-600 text-white shadow">
+    <nav className="text-black shadow">
       <div className="w-[95%] mx-auto flex justify-between items-center py-3">
         {/* Logo */}
         <h1 className="text-2xl font-bold">
@@ -30,6 +30,10 @@ export const Navbar = () => {
             <Link to="/borrow-book-summery">Borrow Summary</Link>
           </li>
         </ul>
+
+        <div>
+          <input type="search" className="p-2 border rounded" name="search" placeholder="Search..." id="" />
+        </div>
 
         {/* Mobile menu icon */}
         <div className="md:hidden text-2xl cursor-pointer" onClick={toggleMenu}>

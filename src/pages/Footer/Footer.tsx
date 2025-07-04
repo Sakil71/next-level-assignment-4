@@ -3,7 +3,7 @@ export const Footer = () => {
 
   return (
     <footer className="mt-10 py-4 text-center border-t text-sm text-gray-600">
-      © {year} Library Management. All rights reserved.
+      © {year} - Library Management. All rights reserved.
     </footer>
   );
 };

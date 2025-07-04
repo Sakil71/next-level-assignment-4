@@ -8,7 +8,7 @@ export const BorrowSummary = () => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">Borrow Summary</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-center">Borrow Summary</h2>
       <table className="min-w-full border border-gray-300 divide-y divide-gray-200 text-sm">
         <thead className="bg-gray-100">
           <tr>

@@ -42,7 +42,7 @@ export const AddBook = () => {
 
   return (
     <div className="max-w-xl mx-auto p-6 rounded shadow mt-6">
-      <h2 className="text-xl font-bold mb-4">Add A New Book</h2>
+      <h2 className="text-xl font-bold mb-4 text-center">Add A New Book</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         {["title", "author", "genre", "isbn"].map((field) => (
           <div key={field}>

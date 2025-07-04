@@ -4,13 +4,14 @@ import type { IBook } from "../../types";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://assignment-3-six-omega.vercel.app/api",
+    // baseUrl: "https://assignment-3-six-omega.vercel.app/api",
+    baseUrl: "http://localhost:5000/api",
   }),
   tagTypes: ["Books", "BorrowSummary"],
   endpoints: (builder) => ({
     // Get all books
     getBooks: builder.query({
-      query: () => "/books",
+      query: ({ page = 1, limit = 2 }) => `/books?page=${page}&limit=${limit}`,
       providesTags: ["Books"],
     }),
 
@@ -81,5 +82,5 @@ export const {
   useDeleteBookMutation,
   useCreateBookMutation,
   useBorrowBookMutation,
-  useGetBorrowedSummaryQuery
+  useGetBorrowedSummaryQuery,
 } = baseApi;
