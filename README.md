@@ -52,7 +52,7 @@ A minimal yet powerful full-stack Library Management System built with **React**
 ---
 
 ### Folder Structure
-
+```
 src/
 ├── components/ 
 │ ├── EditBookModal.tsx
@@ -71,6 +71,7 @@ src/
 │ └── routes.ts 
 
 └── App.tsx
+```
 
 ### Purpose
 
