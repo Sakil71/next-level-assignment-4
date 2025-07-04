@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import type { IBook } from "../types";
-import { useUpdateBookMutation } from "../redux/api/baseApi";
+import { Genre, type IBook } from "../types";
+import { useEditBookMutation } from "../redux/api/baseApi";
 
 interface EditBookModalProps {
   isOpen: boolean;
@@ -11,9 +11,13 @@ interface EditBookModalProps {
 
 const EditBookModal = ({ isOpen, closeModal, book }: EditBookModalProps) => {
   const [formData, setFormData] = useState({ ...book });
-  const [updateBook] = useUpdateBookMutation();
+  const [editBook] = useEditBookMutation();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const allGenre = Object.values(Genre);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -27,7 +31,7 @@ const EditBookModal = ({ isOpen, closeModal, book }: EditBookModalProps) => {
       ...formData,
       available: formData.copies === 0 ? false : true,
     };
-    await updateBook({ id: book._id, data: updatedData });
+    await editBook({ id: book._id, data: updatedData });
     closeModal();
   };
 
@@ -97,22 +101,27 @@ const EditBookModal = ({ isOpen, closeModal, book }: EditBookModalProps) => {
                       required
                     />
                   </div>
+
                   <div>
-                    <label
-                      htmlFor="genre"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Genre
-                    </label>
-                    <input
+                    <label className="block font-medium">Genre</label>
+                    <select
                       name="genre"
-                      id="genre"
-                      value={formData.genre}
+                      value={formData.genre || ""}
                       onChange={handleChange}
-                      className="mt-1 w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       required
-                    />
+                      className="w-full border px-3 py-2 rounded"
+                    >
+                      <option value="" disabled>
+                        Select genre
+                      </option>
+                      {allGenre.map((genre) => (
+                        <option key={genre} value={genre}>
+                          {genre.charAt(0) + genre.slice(1).toLowerCase()}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+
                   <div>
                     <label
                       htmlFor="description"

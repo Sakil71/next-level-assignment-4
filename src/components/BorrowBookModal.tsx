@@ -73,13 +73,13 @@ export const BorrowBookModal = ({ isOpen, closeModal, book }: BorrowBookModalPro
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="border px-4 py-2 rounded"
+                  className="border px-4 py-2 cursor-pointer rounded"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white px-4 py-2 rounded"
+                  className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded"
                 >
                   Confirm
                 </button>

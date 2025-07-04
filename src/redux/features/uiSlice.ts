@@ -7,6 +7,7 @@ interface UIState {
   borrowTarget: string | null;
   currentPage: number;
   limit: number;
+  searchTerm: string;
 }
 
 const initialState: UIState = {
@@ -16,6 +17,7 @@ const initialState: UIState = {
   borrowTarget: null,
   currentPage: 1,
   limit: 10,
+  searchTerm: "",
 };
 
 const uiSlice = createSlice({
@@ -41,6 +43,9 @@ const uiSlice = createSlice({
     setPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
+    setSearchTerm: (state, action: PayloadAction<string>) => {
+      state.searchTerm = action.payload;
+    },
   },
 });
 
@@ -50,6 +55,7 @@ export const {
   openBorrowModal,
   closeBorrowModal,
   setPage,
+  setSearchTerm,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

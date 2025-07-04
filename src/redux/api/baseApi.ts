@@ -4,8 +4,8 @@ import type { IBook } from "../../types";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://assignment-3-six-omega.vercel.app/api",
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: "https://assignment-3-six-omega.vercel.app/api",
+    // baseUrl: "http://localhost:5000/api",
   }),
   tagTypes: ["Books", "BorrowSummary"],
   endpoints: (builder) => ({
@@ -15,8 +15,8 @@ export const baseApi = createApi({
       providesTags: ["Books"],
     }),
 
-    // Update book
-    updateBook: builder.mutation<IBook, { id: string; data: Partial<IBook> }>({
+    // edit book
+    editBook: builder.mutation<IBook, { id: string; data: Partial<IBook> }>({
       query: ({ id, data }) => ({
         url: `/books/${id}`,
         method: "PUT",
@@ -78,7 +78,7 @@ export const baseApi = createApi({
 
 export const {
   useGetBooksQuery,
-  useUpdateBookMutation,
+  useEditBookMutation,
   useDeleteBookMutation,
   useCreateBookMutation,
   useBorrowBookMutation,

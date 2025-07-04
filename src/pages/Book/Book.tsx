@@ -14,6 +14,8 @@ import {
   closeBorrowModal,
 } from "../../redux/features/uiSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { Loading } from "../../components/Loading";
+import { Error } from "../../components/Error";
 
 export const Book = () => {
   const dispatch = useAppDispatch();
@@ -24,6 +26,7 @@ export const Book = () => {
     borrowTarget,
     currentPage,
     limit,
+    searchTerm,
   } = useAppSelector((state) => state.ui);
 
   const [deleteBook] = useDeleteBookMutation();
@@ -49,8 +52,8 @@ export const Book = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong!</p>;
+  if (isLoading) return <Loading></Loading>;
+  if (isError) return <Error message="Failed to load books." />;
 
   const selected = books?.data?.find((b: IBook) => b._id === selectedBook);
   const borrow = books?.data?.find((b: IBook) => b._id === borrowTarget);
@@ -61,71 +64,84 @@ export const Book = () => {
       <table className="min-w-full border border-gray-200 divide-y divide-gray-200 text-sm">
         <thead className="bg-gray-100">
           <tr>
-            <th className="px-4 py-2 text-left font-medium text-gray-700">
+            <th>#</th>
+            <th className="px-4 py-2 text-left font-bold text-gray-700">
               Title
             </th>
-            <th className="px-4 py-2 text-left font-medium text-gray-700">
+            <th className="px-4 py-2 text-left font-bold text-gray-700">
               Author
             </th>
-            <th className="px-4 py-2 text-left font-medium text-gray-700">
+            <th className="px-4 py-2 text-left font-bold text-gray-700">
               Genre
             </th>
-            <th className="px-4 py-2 text-left font-medium text-gray-700">
+            <th className="px-4 py-2 text-left font-bold text-gray-700">
               ISBN
             </th>
-            <th className="px-4 py-2 text-left font-medium text-gray-700">
+            <th className="px-4 py-2 text-left font-bold text-gray-700">
               Copies
             </th>
-            <th className="px-4 py-2 text-left font-medium text-gray-700">
+            <th className="px-4 py-2 text-left font-bold text-gray-700">
               Availability
             </th>
-            <th className="px-4 py-2 text-left font-medium text-gray-700">
+            <th className="px-4 py-2 text-left font-bold text-gray-700">
               Actions
             </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {books?.data?.map((book: IBook) => (
-            <tr key={book._id}>
-              <td className="px-4 py-2 font-semibold">{book.title}</td>
-              <td className="px-4 py-2">{book.author}</td>
-              <td className="px-4 py-2">{book.genre}</td>
-              <td className="px-4 py-2">{book.isbn}</td>
-              <td className="px-4 py-2">{book.copies}</td>
-              <td className="px-4 py-2">
-                {book.available ? (
-                  <span className="text-green-600 font-medium">available</span>
-                ) : (
-                  <span className="text-red-600 font-medium">unavailable</span>
-                )}
-              </td>
-              <td className="px-4 py-2">
-                <div className="flex gap-4">
-                  <button
-                    onClick={() => dispatch(openEditModal(book._id))}
-                    title="Edit"
-                    className="cursor-pointer"
-                  >
-                    <MdEdit className="text-xl" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(book)}
-                    title="Delete"
-                    className="cursor-pointer"
-                  >
-                    <MdDelete className="text-red-600 text-xl" />
-                  </button>
-                  <button
-                    onClick={() => dispatch(openBorrowModal(book._id))}
-                    title="Borrow"
-                    className="cursor-pointer"
-                  >
-                    <MdLibraryBooks className="text-green-600 text-xl" />
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
+          {books?.data
+            ?.filter((book: IBook) =>
+              book.title.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .map((book: IBook, index: number) => (
+              <tr key={book._id}>
+                <td className="px-4 py-4 font-semibold">
+                  {" "}
+                  {(currentPage - 1) * limit + index + 1}.
+                </td>
+                <td className="px-4 py-4 font-semibold">{book.title}</td>
+                <td className="px-4 py-4">{book.author}</td>
+                <td className="px-4 py-4">{book.genre}</td>
+                <td className="px-4 py-4">{book.isbn}</td>
+                <td className="px-4 py-4">{book.copies}</td>
+                <td className="px-4 py-4">
+                  {book.available ? (
+                    <span className="text-green-600 font-medium">
+                      available
+                    </span>
+                  ) : (
+                    <span className="text-red-600 font-medium">
+                      unavailable
+                    </span>
+                  )}
+                </td>
+                <td className="px-4 py-4">
+                  <div className="flex gap-4">
+                    <button
+                      onClick={() => dispatch(openEditModal(book._id))}
+                      title="Edit"
+                      className="cursor-pointer"
+                    >
+                      <MdEdit className="text-xl" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(book)}
+                      title="Delete"
+                      className="cursor-pointer"
+                    >
+                      <MdDelete className="text-red-600 text-xl" />
+                    </button>
+                    <button
+                      onClick={() => dispatch(openBorrowModal(book._id))}
+                      title="Borrow"
+                      className="cursor-pointer"
+                    >
+                      <MdLibraryBooks className="text-green-600 text-xl" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
 

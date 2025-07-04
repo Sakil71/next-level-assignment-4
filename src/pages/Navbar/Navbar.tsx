@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MdMenu, MdClose } from "react-icons/md";
 import { Link } from "react-router";
+import { Searching } from "../../components/Searching";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +15,7 @@ export const Navbar = () => {
         {/* Logo */}
         <h1 className="text-2xl font-bold">
           <Link to="/" onClick={closeMenu}>
-            📚 <span className="text-base">Library</span>
+            📚 <span className="text-xl">Library</span>
           </Link>
         </h1>
 
@@ -31,9 +32,7 @@ export const Navbar = () => {
           </li>
         </ul>
 
-        <div>
-          <input type="search" className="p-2 border rounded" name="search" placeholder="Search..." id="" />
-        </div>
+        <Searching></Searching>
 
         {/* Mobile menu icon */}
         <div className="md:hidden text-2xl cursor-pointer" onClick={toggleMenu}>
@@ -43,7 +42,7 @@ export const Navbar = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <ul className="md:hidden flex flex-col gap-3 px-6 pb-4 bg-green-600 text-white">
+        <ul className="md:hidden flex flex-col gap-3 px-6 pb-4 text-black shadow">
           <li>
             <Link to="/book" onClick={closeMenu}>
               Book

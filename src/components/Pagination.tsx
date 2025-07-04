@@ -27,7 +27,7 @@ export const Pagination = () => {
       <button
         onClick={handlePrev}
         disabled={currentPage === 1}
-        className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+        className="px-3 py-1 cursor-pointer rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
       >
         Prev
       </button>
@@ -37,7 +37,7 @@ export const Pagination = () => {
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+        className="px-3 py-1 cursor-pointer rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
       >
         Next
       </button>

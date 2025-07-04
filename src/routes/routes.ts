@@ -3,6 +3,7 @@ import { Layout } from "../layout/Layout";
 import { Book } from "../pages/Book/Book";
 import { AddBook } from "../pages/AddBook/AddBook";
 import { BorrowSummary } from "../pages/BorrowSummary/BorrowSummary";
+import { Error } from "../components/Error";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
         path: "borrow-book-summery",
         Component: BorrowSummary,
       },
+      {
+    path: "*",
+    Component: Error,
+  },
     ],
   },
 ]);
