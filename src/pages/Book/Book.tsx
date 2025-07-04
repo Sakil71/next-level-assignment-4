@@ -57,25 +57,25 @@ export const Book = () => {
       <table className="min-w-full border border-gray-200 divide-y divide-gray-200 text-sm">
         <thead className="bg-gray-100">
           <tr>
-            <th className="px-4 py-2 text-left font-semibold text-gray-700">
+            <th className="px-4 py-2 text-left font-medium text-gray-700">
               Title
             </th>
-            <th className="px-4 py-2 text-left font-semibold text-gray-700">
+            <th className="px-4 py-2 text-left font-medium text-gray-700">
               Author
             </th>
-            <th className="px-4 py-2 text-left font-semibold text-gray-700">
+            <th className="px-4 py-2 text-left font-medium text-gray-700">
               Genre
             </th>
-            <th className="px-4 py-2 text-left font-semibold text-gray-700">
+            <th className="px-4 py-2 text-left font-medium text-gray-700">
               ISBN
             </th>
-            <th className="px-4 py-2 text-left font-semibold text-gray-700">
+            <th className="px-4 py-2 text-left font-medium text-gray-700">
               Copies
             </th>
-            <th className="px-4 py-2 text-left font-semibold text-gray-700">
+            <th className="px-4 py-2 text-left font-medium text-gray-700">
               Availability
             </th>
-            <th className="px-4 py-2 text-left font-semibold text-gray-700">
+            <th className="px-4 py-2 text-left font-medium text-gray-700">
               Actions
             </th>
           </tr>
@@ -95,28 +95,36 @@ export const Book = () => {
                   <span className="text-red-600 font-medium">unavailable</span>
                 )}
               </td>
-              <td className="px-4 py-2 flex gap-4">
-                <button
-                  onClick={() => openModal(book)}
-                  title="Edit"
-                  className="cursor-pointer"
-                >
-                  <MdEdit className="text-xl" />
-                </button>
-                <button
-                  onClick={() => handleDelete(book)}
-                  title="Delete"
-                  className="cursor-pointer"
-                >
-                  <MdDelete className="text-red-600 text-xl" />
-                </button>
-                <button
-                  onClick={() => openBorrowModal(book)}
-                  title="Borrow"
-                  className="cursor-pointer"
-                >
-                  <MdLibraryBooks className="text-green-600 text-xl" />
-                </button>
+              <td className="px-4 py-2">
+                <div className="flex gap-4">
+                  <div>
+                    <button
+                      onClick={() => openModal(book)}
+                      title="Edit"
+                      className="cursor-pointer"
+                    >
+                      <MdEdit className="text-xl" />
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => handleDelete(book)}
+                      title="Delete"
+                      className="cursor-pointer"
+                    >
+                      <MdDelete className="text-red-600 text-xl" />
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => openBorrowModal(book)}
+                      title="Borrow"
+                      className="cursor-pointer"
+                    >
+                      <MdLibraryBooks className="text-green-600 text-xl" />
+                    </button>
+                  </div>
+                </div>
               </td>
             </tr>
           ))}
