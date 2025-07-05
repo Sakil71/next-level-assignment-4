@@ -7,7 +7,7 @@ export const BorrowSummary = () => {
   if (isError) return <p className="p-4 text-red-500">Failed to load data</p>;
 
   return (
-    <div className="p-6 mx-auto">
+    <div className="p-2 mx-auto">
       <h2 className="text-2xl font-semibold mb-4 text-center">
         Borrow Summary
       </h2>
