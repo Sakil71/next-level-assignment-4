@@ -7,12 +7,12 @@ export const BorrowSummary = () => {
   if (isError) return <p className="p-4 text-red-500">Failed to load data</p>;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 mx-auto">
       <h2 className="text-2xl font-semibold mb-4 text-center">
         Borrow Summary
       </h2>
       <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-300 divide-y divide-gray-200 text-sm">
+        <table className="min-w-full mx-auto border border-gray-300 divide-y divide-gray-200 text-sm">
           <thead className="bg-gray-100">
             <tr>
               <th className="px-4 py-2 text-left">#</th>
