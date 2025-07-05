@@ -1,34 +1,32 @@
-import { useState } from "react";
-import { useCreateBookMutation } from "../../redux/api/baseApi";
 import { useNavigate } from "react-router";
-import type { IBook } from "../../types";
-import { Genre } from "../../types"; 
+import { useCreateBookMutation } from "../../redux/api/baseApi";
+import { Genre, type IBook } from "../../types";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { addBook, resetForm } from "../../redux/features/formSlice";
 import toast from "react-hot-toast";
 
 export const AddBook = () => {
-  const [createBook] = useCreateBookMutation();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const formData = useAppSelector((state) => state.addBookForm);
 
-  const [formData, setFormData] = useState<Partial<IBook>>({
-    title: "",
-    author: "",
-    genre: "",
-    isbn: "",
-    description: "",
-    copies: 1,
-    available: true,
-  });
-
-  const allGenre = Object.values(Genre);   
+  const [createBook] = useCreateBookMutation();
+  const allGenre = Object.values(Genre);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "copies" ? parseInt(value) : value,
-    }));
+    const parsedValue = name === "copies" ? parseInt(value) : value;
+
+    dispatch(
+      addBook({
+        field: name as keyof Partial<IBook>, 
+        value: parsedValue,
+      })
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,11 +36,12 @@ export const AddBook = () => {
         ...formData,
         available: formData.copies === 0 ? false : true,
       }).unwrap();
+      dispatch(resetForm());
+      toast.success("Book added successfully");
       navigate("/book");
-      toast.success("Book added successfull");
     } catch (err) {
       console.error("Failed to create book:", err);
-      toast.error("Failed to added book");
+      toast.error("Failed to add book");
     }
   };
 
@@ -56,7 +55,7 @@ export const AddBook = () => {
             <input
               name={field}
               required
-              value={String(formData[field as keyof IBook] ?? "")}
+              value={String(formData[field as keyof typeof formData] ?? "")}
               onChange={handleChange}
               className="w-full border px-3 py-2 rounded"
             />

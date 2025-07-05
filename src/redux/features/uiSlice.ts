@@ -1,20 +1,16 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface UIState {
-  isEditModalOpen: boolean;
+  modalType: "edit" | "borrow" | null;
   selectedBook: string | null;
-  isBorrowModalOpen: boolean;
-  borrowTarget: string | null;
   currentPage: number;
   limit: number;
   searchTerm: string;
 }
 
 const initialState: UIState = {
-  isEditModalOpen: false,
+  modalType: null,
   selectedBook: null,
-  isBorrowModalOpen: false,
-  borrowTarget: null,
   currentPage: 1,
   limit: 10,
   searchTerm: "",
@@ -24,21 +20,16 @@ const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    openEditModal: (state, action: PayloadAction<string>) => {
-      state.isEditModalOpen = true;
-      state.selectedBook = action.payload;
+    openModal: (
+      state,
+      action: PayloadAction<{ type: "edit" | "borrow"; id: string }>
+    ) => {
+      state.modalType = action.payload.type;
+      state.selectedBook = action.payload.id;
     },
-    closeEditModal: (state) => {
-      state.isEditModalOpen = false;
+    closeModal: (state) => {
+      state.modalType = null;
       state.selectedBook = null;
-    },
-    openBorrowModal: (state, action: PayloadAction<string>) => {
-      state.isBorrowModalOpen = true;
-      state.borrowTarget = action.payload;
-    },
-    closeBorrowModal: (state) => {
-      state.isBorrowModalOpen = false;
-      state.borrowTarget = null;
     },
     setPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
@@ -49,13 +40,7 @@ const uiSlice = createSlice({
   },
 });
 
-export const {
-  openEditModal,
-  closeEditModal,
-  openBorrowModal,
-  closeBorrowModal,
-  setPage,
-  setSearchTerm,
-} = uiSlice.actions;
+export const { openModal, closeModal, setPage, setSearchTerm } =
+  uiSlice.actions;
 
 export default uiSlice.reducer;

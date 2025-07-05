@@ -10,7 +10,7 @@ export const Navbar = () => {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <nav className="text-black shadow">
+    <nav className="text-black shadow sticky top-0 bg-indigo-50">
       <div className="w-[95%] mx-auto flex justify-between items-center py-3">
         {/* Logo */}
         <h1 className="text-2xl font-bold">

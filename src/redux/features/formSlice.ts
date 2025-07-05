@@ -14,21 +14,21 @@ const initialState: IFormState = {
 };
 
 export const formSlice = createSlice({
-  name: "addBookForm",
+  name: "editBookForm",
   initialState,
   reducers: {
     addBook: <K extends keyof IFormState>(
-      state: IFormState,
+      state: { [x: string]: string | number | boolean | Date | undefined; },
       action: PayloadAction<{ field: K; value: IFormState[K] }>
     ) => {
-      const { field, value } = action.payload;
-      state[field] = value;
+      state[action.payload.field] = action.payload.value;
     },
-    resetForm: (state) => {
-      Object.assign(state, initialState);
+    setFullForm: (state, action: PayloadAction<IFormState>) => {
+      Object.assign(state, action.payload);
     },
+    resetForm: () => initialState,
   },
 });
 
-export const { addBook, resetForm } = formSlice.actions;
+export const { addBook, resetForm, setFullForm } = formSlice.actions;
 export default formSlice.reducer;

@@ -23,7 +23,7 @@ export const Pagination = () => {
   };
 
   return (
-    <div className="flex justify-center items-center gap-4 mt-8">
+    <div className="flex justify-center items-center gap-4 mt-8 mb-4">
       <button
         onClick={handlePrev}
         disabled={currentPage === 1}

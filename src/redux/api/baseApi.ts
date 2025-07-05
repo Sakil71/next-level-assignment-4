@@ -47,6 +47,12 @@ export const baseApi = createApi({
       invalidatesTags: ["Books"],
     }),
 
+    // Book details
+    getSingleBook: builder.query<IBook, string>({
+      query: (id) => `/books/${id}`,
+      providesTags: ["Books"],
+    }),
+
     // Borrow book
     borrowBook: builder.mutation<
       IBook,
@@ -78,6 +84,7 @@ export const baseApi = createApi({
 
 export const {
   useGetBooksQuery,
+  useGetSingleBookQuery,
   useEditBookMutation,
   useDeleteBookMutation,
   useCreateBookMutation,
