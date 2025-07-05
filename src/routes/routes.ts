@@ -4,7 +4,7 @@ import { Book } from "../pages/Book/Book";
 import { AddBook } from "../pages/AddBook/AddBook";
 import { BorrowSummary } from "../pages/BorrowSummary/BorrowSummary";
 import { Error } from "../components/Error";
-import BookDetails from "../pages/BookDetails/BookDetails";
+import { BookDetails } from "../pages/BookDetails/BookDetails";
 
 export const router = createBrowserRouter([
   {

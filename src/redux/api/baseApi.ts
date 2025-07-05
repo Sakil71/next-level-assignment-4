@@ -48,7 +48,10 @@ export const baseApi = createApi({
     }),
 
     // Book details
-    getSingleBook: builder.query<IBook, string>({
+    getSingleBook: builder.query<
+      { success: boolean; message: string; data: IBook },
+      string
+    >({
       query: (id) => `/books/${id}`,
       providesTags: ["Books"],
     }),

@@ -3,17 +3,16 @@ import { Loading } from "../../components/Loading";
 import { Error } from "../../components/Error";
 import { useGetSingleBookQuery } from "../../redux/api/baseApi";
 
-const BookDetails = () => {
+export const BookDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { data: book, isLoading, isError } = useGetSingleBookQuery(id!);
-
-  console.log(book);
-  
+  const { data, isLoading, isError } = useGetSingleBookQuery(id!);
 
   if (isLoading) return <Loading />;
-  if (isError || !book)
+  if (isError || !data)
     return <Error message="Failed to load book details or book not found." />;
+
+  const book = data.data; 
 
   return (
     <div className="max-w-3xl mx-auto p-6 shadow rounded mt-6">
@@ -24,25 +23,25 @@ const BookDetails = () => {
         &larr; Back
       </button>
 
-      <h1 className="text-3xl font-bold mb-4">{book.data.title}</h1>
+      <h1 className="text-2xl font-bold mb-4">{book.title}</h1>
       <p className="mb-2">
-        <strong>Author:</strong> {book.data.author}
+        <strong>Author:</strong> {book.author}
       </p>
       <p className="mb-2">
-        <strong>Genre:</strong> {book.data.genre}
+        <strong>Genre:</strong> {book.genre}
       </p>
       <p className="mb-2">
-        <strong>ISBN:</strong> {book.data.isbn}
+        <strong>ISBN:</strong> {book.isbn}
       </p>
       <p className="mb-4">
-        <strong>Description:</strong> {book.data.description}
+        <strong>Description:</strong> {book.description}
       </p>
       <p className="mb-2">
-        <strong>Copies:</strong> {book.data.copies}
+        <strong>Copies:</strong> {book.copies}
       </p>
       <p className="mb-2">
         <strong>Availability:</strong>{" "}
-        {book.data.available ? (
+        {book.available ? (
           <span className="text-green-600 font-semibold">Available</span>
         ) : (
           <span className="text-red-600 font-semibold">Unavailable</span>
@@ -51,5 +50,3 @@ const BookDetails = () => {
     </div>
   );
 };
-
-export default BookDetails;
